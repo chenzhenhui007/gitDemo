@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="canvas" height="500" width="500"></canvas>
+    <img id='data' src="./timg.jpg" alt="">
+    <script src="./worker.js"></script>
+    <script>
+        var canvas = document.getElementById('canvas'),
+            // oImag = document.getElementById('data'),
+            oImag = document.getElementsByTagName('img')[0],
+            ctx = canvas.getContext('2d'),
+            oData, newSrc
+
+            var worker = new Worker('worker.js')
+            
+            
+        window.onload = function () {
+            ctx.drawImage(oImag, 0, 0, 400, 300)
+            oData = ctx.getImageData(0, 0, 400, 300)
+            worker.postMessage(oData);
+           
+
+             console.log(onmessage(oData))
+           
+
+             
+            ctx.putImageData(oData, 0, 0)
+        }
+        // var worker = new Worker('worker.js')
+        // worker.onmessage = function (e) {
+        //     console.log(e.data)
+        //     console.log('1')
+        // }
+        // worker.postMessage(10);
+
+    </script>
+</body>
+
+</html>
